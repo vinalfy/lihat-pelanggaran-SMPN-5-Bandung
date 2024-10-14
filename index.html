@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelanggaran Siswa</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcx7m8h3tBHk0XOMs_khuRUoEyjFOsB-Q1rQ&usqp=CAU" alt="Ikon SMP 5" />
+        <h2>Melihat Pelanggaran Siswa</h2>
+        
+        <!-- Input untuk NISN -->
+        <div class="input-section">
+            <input type="number" id="nisnSiswa" placeholder="Masukkan NISN Siswa" />
+        </div>
+        
+        <!-- Input untuk Nama Siswa -->
+        <div class="input-section">
+            <input type="text" id="namaSiswa" placeholder="Masukkan Nama Siswa" />
+        </div>
+        
+        <button onclick="generatePelanggaran()">Lihat Pelanggaran</button>
+        
+        <h3 id="hasilNama"></h3>
+        <p id="hasilPelanggaran"></p>
+        <ul id="listPelanggaran"></ul>
+        <p id="totalPoin" class="total"></p>
+        
+        <p id="errorMessage" class="error"></p>
+        
+        <p class="note">Website ini untuk Tugas P5 9I Kelompok 1</p>
+        <p class="fake-note">PELANGGARAN INI PALSU HANYA UNTUK CONTOH</p>
+    </div>
+
+    <script src="script.js"></script> <!-- Link to external JS file -->
+
+</body>
+</html>
