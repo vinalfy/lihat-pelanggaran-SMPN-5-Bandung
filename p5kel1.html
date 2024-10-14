@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelanggaran Siswa</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            border-left: 5px solid #ff6b6b;
+            text-align: left;
+        }
+        .total {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .input-section {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        input[type="number"], input[type="text"] {
+            padding: 12px;
+            width: 70%;
+            border: 2px solid #ddd;
+            border-radius: 5px; /* Input kotak */
+            font-size: 16px;
+            transition: 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+            outline: none;
+            background-color: #fafafa;
+        }
+        input[type="number"]::placeholder, input[type="text"]::placeholder {
+            color: #999;
+            font-size: 14px;
+        }
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: #001f3f;
+            box-shadow: 0 0 10px rgba(0, 31, 63, 0.3); /* Biru navy */
+            background-color: #fff;
+        }
+        button {
+            padding: 12px 30px;
+            background-color: #001f3f; /* Warna biru navy */
+            color: white;
+            border: none;
+            border-radius: 5px; /* Tombol kotak */
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #001a35;
+        }
+        img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+        .fake-note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcx7m8h3tBHk0XOMs_khuRUoEyjFOsB-Q1rQ&usqp=CAU" alt="Ikon SMP 5" />
+        <h2>Melihat Pelanggaran Siswa</h2>
+        
+        <!-- Input untuk NISN -->
+        <div class="input-section">
+            <input type="number" id="nisnSiswa" placeholder="Masukkan NISN Siswa" />
+        </div>
+        
+        <!-- Input untuk Nama Siswa -->
+        <div class="input-section">
+            <input type="text" id="namaSiswa" placeholder="Masukkan Nama Siswa" />
+        </div>
+        
+        <button onclick="generatePelanggaran()">Lihat Pelanggaran</button>
+        
+        <h3 id="hasilNama"></h3>
+        <p id="hasilPelanggaran"></p>
+        <ul id="listPelanggaran"></ul>
+        <p id="totalPoin" class="total"></p>
+        
+        <p id="errorMessage" class="error"></p>
+        
+        <p class="note">Website ini untuk Tugas P5 9I Kelompok 1</p>
+        <p class="fake-note">PELANGGARAN INI PALSU HANYA UNTUK CONTOH</p>
+    </div>
+
+    <script>
+        // Validasi NISN dan Nama Siswa
+        const siswaData = {
+            "0098149840": "Vino Alfiano Yusuf"
+        };
+
+        // Daftar pelanggaran tetap
+        const pelanggaran = [
+            { nama: 'Telat Datang', poin: 10 },
+            { nama: 'Ke Kantin Saat Jam Pelajaran', poin: 15 },
+            { nama: 'Makan Saat Jam Pelajaran', poin: 5 },
+            { nama: 'Merusak Fasilitas', poin: 20 }
+        ];
+
+        const MAX_POIN = 85; // Batas maksimal poin
+
+        // Fungsi untuk menampilkan pelanggaran dan menghitung total poin
+        function generatePelanggaran() {
+            const nisnSiswa = document.getElementById("nisnSiswa").value;
+            const namaSiswa = document.getElementById("namaSiswa").value;
+            const errorMessage = document.getElementById("errorMessage");
+
+            // Validasi input NISN dan Nama Siswa
+            if (nisnSiswa === "" || namaSiswa === "") {
+                errorMessage.textContent = "Masukkan NISN dan Nama Siswa terlebih dahulu!";
+                return;
+            }
+
+            // Cek apakah NISN dan Nama Siswa sesuai
+            if (siswaData[nisnSiswa] && siswaData[nisnSiswa] !== namaSiswa) {
+                errorMessage.textContent = "NISN DENGAN NAMA ANDA TIDAK COCOK ULANGI LAGI!";
+                return;
+            } else if (!siswaData[nisnSiswa] && namaSiswa === siswaData["0098149840"]) {
+                errorMessage.textContent = "NAMA DENGAN NISN ANDA TIDAK COCOK ULANGI LAGI!";
+                return;
+            } else if (!siswaData[nisnSiswa]) {
+                errorMessage.textContent = "NISN tidak ditemukan!";
+                return;
+            }
+
+            // Hapus pesan error jika validasi berhasil
+            errorMessage.textContent = "";
+
+            // Menampilkan hasil pelanggaran
+            const hasilNama = document.getElementById("hasilNama");
+            hasilNama.textContent = `${namaSiswa} mendapatkan total poin pelanggaran:`;
+
+            const listPelanggaran = document.getElementById("listPelanggaran");
+            listPelanggaran.innerHTML = ""; // Kosongkan list sebelumnya
+
+            let totalPoin = 0;
+
+            // Tambahkan pelanggaran ke dalam list
+            pelanggaran.forEach(pelanggaranItem => {
+                const li = document.createElement("li");
+                li.textContent = `${pelanggaranItem.nama} - Poin ${pelanggaranItem.poin}`;
+                listPelanggaran.appendChild(li);
+
+                totalPoin += pelanggaranItem.poin;
+            });
+
+            // Tampilkan total poin
+            const totalPoinElement = document.getElementById("totalPoin");
+            totalPoinElement.textContent = "Total Poin: " + totalPoin + " / " + MAX_POIN;
+        }
+    </script>
+
+</body>
+</html>
