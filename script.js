@@ -11,7 +11,7 @@ const pelanggaran = [
     { nama: 'Merusak Fasilitas', poin: 20 }
 ];
 
-const MAX_POIN = 85; // Batas maksimal poin
+const MAX_POIN = 100; // Batas maksimal poin
 
 // Fungsi untuk menampilkan pelanggaran dan menghitung total poin
 function generatePelanggaran() {
